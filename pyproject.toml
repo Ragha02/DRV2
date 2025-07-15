@@ -1,5 +1,5 @@
 [project]
-name = "enhanced_agentic_deep_researcher"
+name = "enhanced-agentic-deep-researcher"
 version = "0.2.0"
 description = "Enhanced Deep Research Agent with Academic Citations and Source Links"
 readme = "README.md"
