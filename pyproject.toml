@@ -1,17 +1,172 @@
 [project]
-name = "agentic_deep_researcher"
-version = "0.1.0"
-description = "Deep Research Agent using Crew AI and LinkUp API"
+name = "enhanced_agentic_deep_researcher"
+version = "0.2.0"
+description = "Enhanced Deep Research Agent with Academic Citations and Source Links"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    # Core CrewAI and AI dependencies
     "crewai>=0.114.0",
     "linkup-sdk>=0.2.5",
-    "mcp>=1.6.0",
     "openai>=1.75.0",
     "python-dotenv>=1.1.0",
+
+    # MCP Server dependencies
+    "mcp>=1.6.0",
+
+    # Streamlit and UI dependencies
     "streamlit>=1.44.1",
     "streamlit-crewai-process-output>=0.1.1",
+
+    # Document processing and PDF generation
     "reportlab>=4.0.0",
     "markdown>=3.6.0",
+
+    # Data processing and analysis
+    "pandas>=2.0.0",
+    "numpy>=1.24.0",
+
+    # Web scraping and parsing (for enhanced source extraction)
+    "beautifulsoup4>=4.12.0",
+    "requests>=2.31.0",
+    "urllib3>=2.0.0",
+
+    # Academic and citation processing
+    "scholarly>=1.7.0",  # For Google Scholar integration
+    "crossref-commons>=0.10.0",  # For DOI and journal metadata
+    "arxiv>=2.0.0",  # For ArXiv paper access
+
+    # Text processing and NLP
+    "nltk>=3.8.0",
+    "spacy>=3.7.0",
+    "textstat>=0.7.0",  # For readability analysis
+
+    # Date and time processing
+    "python-dateutil>=2.8.0",
+    "pytz>=2023.3",
+
+    # JSON and data serialization
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+
+    # Async and concurrent processing
+    "asyncio-throttle>=1.0.0",
+    "aiohttp>=3.8.0",
+
+    # Logging and monitoring
+    "loguru>=0.7.0",
+    "tqdm>=4.66.0",  # Progress bars
+
+    # Error handling and retry logic
+    "tenacity>=8.2.0",
+    "backoff>=2.2.0",
+
+    # Configuration and environment
+    "click>=8.1.0",
+    "typer>=0.9.0",
+
+    # Testing and quality assurance
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+
+    # Security and validation
+    "validators>=0.22.0",
+    "bleach>=6.1.0",  # For sanitizing HTML content
 ]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.1.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "mypy>=1.5.0",
+    "pre-commit>=3.4.0",
+]
+
+academic = [
+    "scholarly>=1.7.0",
+    "crossref-commons>=0.10.0",
+    "arxiv>=2.0.0",
+    "biopython>=1.81.0",  # For PubMed integration
+    "pubmed-lookup>=0.3.0",
+]
+
+enhanced-processing = [
+    "spacy>=3.7.0",
+    "nltk>=3.8.0",
+    "textstat>=0.7.0",
+    "wordcloud>=1.9.0",
+    "matplotlib>=3.7.0",
+    "seaborn>=0.12.0",
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--verbose",
+    "--tb=short",
+    "--cov=agents",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = [
+    "crewai.*",
+    "linkup.*",
+    "scholarly.*",
+    "crossref_commons.*",
+    "arxiv.*",
+]
+ignore_missing_imports = true
